@@ -14,9 +14,11 @@ Siga os passos abaixo para configurar o ambiente e executar um experimento.
 2. Instalação
 Clone este repositório e instale as dependências listadas no arquivo requirements.txt:
 
-    git clone <url-do-repositorio>
-    cd Affinity2Vec_ChEMBL
-    pip install -r requirements.txt
+`git clone https://github.com/arthruur/Affinity2Vec_ChEMBL.git`
+
+`cd Affinity2Vec_ChEMBL`
+
+`pip install -r requirements.txt`
 
 3. Preparação dos Dados
 
