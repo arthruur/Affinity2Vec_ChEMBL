@@ -38,17 +38,16 @@ Para treinar e avaliar o modelo, execute um dos scripts principais. Por exemplo,
 
 O script irá executar todas as etapas do pipeline:
 
-Carregar e pré-processar os dados.
+- Carregar e pré-processar os dados.
 
-Dividir os dados em treino e teste conforme os arquivos de índice.
+- Dividir os dados em treino e teste conforme os arquivos de índice.
 
-Gerar as características de meta-caminho e de embedding.
+- Gerar as características de meta-caminho e de embedding.
+- Treinar o modelo XGBoost.
 
-Treinar o modelo XGBoost.
+- Avaliar o modelo no conjunto de teste.
 
-Avaliar o modelo no conjunto de teste.
-
-Dentro do script é possível alternar entre os modelos Affinity2Vec_Pscores e Affinity2Vec_Hybrid pela variável "USE_EMBEDDING_FEATURES" no começo do código, além disso, é possível alternar entre os embeddings disponibilizados no artigo original, ou os gerados para esse experimento modificando o "drug_embedding_file" e "target_embedding_file". Em alternativa ao Affinity2Vec_ChEMBL_FixedFolds pode ser executado o "Affinity2Vec_ChEMBL" que faz outra divisão dos dados e utiliza K-FOLD para validação cruzada. 
+Dentro do script é possível alternar entre os modelos Affinity2Vec_Pscores e Affinity2Vec_Hybrid pela variável "USE_EMBEDDING_FEATURES" no começo do código, além disso, é possível alternar entre os embeddings disponibilizados no artigo original, ou os gerados para esse experimento modificando as variáveis "drug_embedding_file" e "target_embedding_file". Em alternativa ao `Affinity2Vec_ChEMBL_FixedFolds` pode ser executado o `Affinity2Vec_ChEMBL` que faz outra divisão dos dados e utiliza K-FOLD para validação cruzada. 
 
 
 Após a execução, os seguintes arquivos serão salvos no diretório definido pela variável MODEL_OUTPUT_FOLDER, results/.
