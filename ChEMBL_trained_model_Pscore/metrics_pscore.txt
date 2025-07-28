@@ -1,0 +1,5 @@
+
+--- Avaliação no Conjunto de Teste ---
+Mean Squared Error (MSE): 0.8224
+Concordance Index (CI): 0.7596
+rm2: 0.5301

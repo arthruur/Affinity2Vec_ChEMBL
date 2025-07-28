@@ -1,112 +1,54 @@
-# Affinity2Vec: Drug-Target Binding Affinity Prediction Method Developed using Representation Learning, Graph Mining, and Machine Learning
+Este projeto é uma implementação em Python do algoritmo Affinity2Vec, conforme descrito no artigo "Affinity2Vec: drug-target binding affinity prediction through representation learning, graph mining, and machine learning". O objetivo é prever a afinidade de ligação (um valor contínuo) entre compostos (fármacos) e alvos proteicos.
 
- 
-#### This repositery provides an implementation of Affinity2Vec tool which is described in a research paper:
-> Scientific Report Journal
+O método trata o problema como uma rede heterogênea, combinando similaridade entre fármacos, similaridade entre alvos e interações conhecidas. A partir dessa rede, extrai características baseadas em meta-caminhos e embeddings para treinar um modelo de regressão (XGBoost).
 
-Received: 22 June 2021                                      
-Accepted:  08 March 2022             
-Published: 19 March 2022
+## Como Usar
 
-> https://doi.org/10.1038/s41598-022-08787-9
+Siga os passos abaixo para configurar o ambiente e executar um experimento.
+1. Pré-requisitos
+    Python 3.8 ou superior
+    Gerenciador de pacotes pip
 
-----
-This code is implemented using Python 3.8.
+2. Instalação
+Clone este repositório e instale as dependências listadas no arquivo requirements.txt:
 
-For any qutions please contact the first author:
-
-
-  Maha A. Thafar
-
-Email: maha.thafar@kaust.edu.sa
-
-Computer, Electrical and Mathematical Sciences and Engineering Division (CEMSE), Computational Bioscience Research Center, Computer (CBRC), King Abdullah University of Science and Technology (KAUST)\
-Collage of Computers and Information Technology, Taif University (TU).
-
-----
-
-## Getting Started
-
-### Prerequisites:
-
-There are several required Python packages to run the code:
-- gensim
-- numpy
-- Scikit-learn
-- keras
-- deepchem
-- protVec
-- xgboost
-- pandas
-
-These packages can be installed using pip or conda as the follwoing example
-```
+git clone <url-do-repositorio>
+cd <nome-do-repositorio>
 pip install -r requirements.txt
-```
----
+
+3. Preparação dos Dados
+
+Antes de executar os scripts, certifique-se de que os seguintes arquivos estão nos diretórios corretos:
+
+    Afinidades: Coloque o arquivo de afinidades (ex: affinitiesChEMBL34-filtered.tsv) no diretório Input/ChEMBL/.
+
+    Embeddings: Coloque os arquivos de embedding para fármacos e alvos (ex: Dr_ChemBERTa_EMBED.tsv, Pr_ESM2_EMBED.tsv ou Dr_seq2seq_EMBED.tsv, Pr_ProtVec_EMBED.tsv) no diretório EMBED/ChEMBL/.
+
+    Folds (Divisões de Dados): Se estiver usando uma divisão fixa, coloque os arquivos de índice (ex: train_val_idx.txt, test_idx.txt) no diretório Input/ChEMBL/folds/.
+
+4. Executando um Experimento
+
+Para treinar e avaliar o modelo, execute um dos scripts principais. Por exemplo, para rodar o experimento com o dataset ChEMBL usando os folds fixos:
+
+`python Affinity2Vec_ChEMBL_FixedFolds.py`
+
+O script irá executar todas as etapas do pipeline:
+
+    Carregar e pré-processar os dados.
+
+    Dividir os dados em treino e teste conforme os arquivos de índice.
+
+    Gerar as características de meta-caminho e de embedding.
+
+    Treinar o modelo XGBoost.
+
+    Avaliar o modelo no conjunto de teste.
+
+Dentro do script é possível alternar entre os modelos Affinity2Vec_Pscores e Affinity2Vec_Hybrid pela variável "USE_EMBEDDING_FEATURES" no começo do código, além disso, é possível alternar entre os embeddings disponibilizados no artigo original, ou os gerados para esse experimento modificando o "drug_embedding_file" e "target_embedding_file". Em alternativa ao Affinity2Vec_ChEMBL_FixedFolds pode ser executado o "Affinity2Vec_ChEMBL" que faz outra divisão dos dados e utiliza K-FOLD para validação cruzada. 
 
 
-### Files Description:
-#### *There are 5 folders:*
+Após a execução, os seguintes arquivos serão salvos no diretório definido pela variável MODEL_OUTPUT_FOLDER, results/.
 
-  **1.Input folder:** 
-  that includes two folder for 2 datasets include: 
-   - Davis dataset,
-   - KIBA dataset,
-   -  where each one of these folder has all required data of drug-target binding affinity (in Adjacency matrix format), drug-drug and target-target similarities in (square matrix format), the drugs' SMILES in dictionary format with drugs' IDs, and the proteins' amino-acid sequences in dictionary format with proteins' IDs
-  
-  **2.Embedding folder:**
-  that has two folders coressponding for 2 datasets,
-     each folder contains the generated seq2seq embeddings for drugs, and generated ProtVec embeddings for proteins. 
-     
-  **3.aupr folder:**
-  to convert the data first to binary and then calculate aupr evaluation metric
-  
-  **4.Code_to_generate_Embeddings folder:**
-  we add seq2seq model code and ProtVec model code that are necessory to generate the embeddings
-  
-  **5. Predictions Figures folder:**
-  These two. figures represent the binding affinities predicted by Affinity2Vec best model vs. actual binding affinity values for Davis and KIBA datasets
-     
-  **6. PDBBind_Refined folder:**
-  This folder has all materials related to PDBBind Refined dataset. It also has the generated embeddings for all Compounds' SMILES and Proteins' amino-acide sequences
-  
----
-#### *There are 6 files:*
-(two main functions, one main for each dataset, and the other functions are same for all datasets which are imported in each main function)
+  final_metrics.txt: Um arquivo de texto com as métricas de performance finais (MSE, CI, r_m2).5. Verificando os Resultados
 
-- **training_functions.py** --> for several training and processing functions such as Cosine_similarity, normalization, etc.
-- **pathScores.py** --> to calculate and return all meta-path scores for 6 path structures
-- **evaluation.py** --> define all evalution metrics used in our experments.
-
-- **2 main functions**, one for each dataset:
-> - **Affinity2Vec_Davis.py**
-> - **Affinity2Vec_KIBA.py**
-
-> - **Jupyter noteboook for Affinity2Vec models using PDBBind Refined dataset**
----
-## Installing:
-
-To get the development environment runining, the code get 2 parameteres from the user which is the dataset name and the model version (the defual dataset is nr)
-run:
-
-```
-python Affinity2Vec_Davis.py
-```
-```
-python Affinity2Vec_KIBA.py
-```
-
-### More details:
-
-- *about the source code that we utilized to generate the drugs' SMILES embedding, please refere to the main source code:*
-> https://github.com/XericZephyr/seq2seq-fingerprint
-
-- *about proteins' amio-acid sequences embeddings please refere to the main source:*
-> https://github.com/ehsanasgari/Deep-Proteomics
-
----
-## To cite this work:
-Thafar, M.A., Alshahrani, M., Albaradei, S. et al. Affinity2Vec: drug-target binding affinity prediction through representation learning, graph mining, and machine learning. Sci Rep 12, 4751 (2022). https://doi.org/10.1038/s41598-022-08787-9
-
-
+  real_vs_predicted.png: Um gráfico de dispersão comparando os valores de afinidade reais com os valores previstos pelo modelo no conjunto de teste.

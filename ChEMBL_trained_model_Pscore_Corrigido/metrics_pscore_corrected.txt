@@ -1,0 +1,5 @@
+
+--- Avaliação no Conjunto de Teste (Metodologia Corrigida) ---
+Mean Squared Error (MSE): 1.0437
+Concordance Index (CI): 0.7197
+rm2: 0.4193

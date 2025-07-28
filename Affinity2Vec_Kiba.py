@@ -35,25 +35,6 @@ from sklearn.preprocessing import MinMaxScaler, minmax_scale
 import scipy
 from scipy import *
 
-# DL Keras
-from keras.wrappers.scikit_learn import KerasRegressor
-from keras.preprocessing.sequence import skipgrams
-from keras.layers import Embedding, Input, Reshape, Dense, merge
-from keras.models import Sequential, Model
-
-# for protein embedding
-import biovec
-
-# for drugs embedding
-import tensorflow as tf
-from tensorflow import keras
-import deepchem as dc
-from deepchem.feat import Featurizer
-from deepchem.models.optimizers import ExponentialDecay, Adam
-from deepchem.models.seqtoseq import AspuruGuzikAutoEncoder
-from deepchem.metrics import to_one_hot
-from deepchem.models.graph_models import GraphConvModel,L2Loss,Dense,Reshape,Dropout 
-
 # Import my files
 from training_functions import *
 from pathScores_functions import *
